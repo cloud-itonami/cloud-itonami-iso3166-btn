@@ -2,8 +2,8 @@
 
 **BTN**: Kingdom of Bhutan.
 
-- e-GP Bhutan procurement system
-- CDB / tax registration
+- e-GP (Procurement Management and Development Division, Ministry of Finance) procurement system
+- CRA company registration + DRC (RAMIS/TPN) tax registration; FDI Rules and Regulations 2025 Schedule III Negative List gate
 
 AGPL-3.0-or-later.
 
