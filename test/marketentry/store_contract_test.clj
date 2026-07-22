@@ -44,3 +44,15 @@
     (is (= 1 (count (:submits m))) (= 1 (count (:submits d))))
     (is (= 1 (count (:ledger m))) (= 1 (count (:ledger d))))
     (is (= (:assessment m) (:assessment d)))))
+
+(deftest ledger-is-append-only
+  (testing "N append-ledger! calls -> N facts, in order, none overwritten or dropped, on both backends"
+    (doseq [s [(store/seed-db) (store/datomic-store {})]]
+      (store/append-ledger! s {:t :committed :op :first :n 1})
+      (store/append-ledger! s {:t :hold :op :second :n 2})
+      (store/append-ledger! s {:t :committed :op :third :n 3})
+      (let [l (store/ledger s)]
+        (is (= 3 (count l)) "no fact lost, none merged")
+        (is (= [1 2 3] (mapv :n l)) "insertion order preserved")
+        (is (= :first (:op (first l))) "earliest fact unchanged by later appends")
+        (is (= :third (:op (last l))) "most recent fact is last")))))
