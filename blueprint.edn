@@ -6,4 +6,38 @@
  :itonami.blueprint/governor :market-entry-compliance-governor
  :itonami.blueprint/robotics false
  :itonami.blueprint/required-technologies [:identity :forms :dmn :bpmn :audit-ledger]
- :itonami.blueprint/status :public-oss}
+ :itonami.blueprint/status :public-oss
+ :itonami.blueprint/maturity :implemented
+ :itonami.blueprint/implemented-slice
+ "MarketEntry-LLM ⊣ Market-Entry Compliance Governor, a REAL compiled
+ `kotoba-lang/langgraph` StateGraph (`:intake -> :advise -> :govern ->
+ :decide -+-> :commit / :request-approval -> :commit / :hold`), with a
+ real `interrupt-before #{:request-approval}` + in-memory checkpointer
+ pausing every `:jurisdiction/assess`/`:filing/draft`/`:filing/submit`
+ for human sign-off, and both `:commit` and `:hold` durably appending
+ to the audit ledger. `marketentry.facts` catalogs Kingdom of Bhutan
+ (BTN) market-entry law, curl-verified against the actual current
+ primary texts (Procurement Rules and Regulations 2025 superseding PRR
+ 2023 effective 1 July 2025; Companies Act of Bhutan 2016 Chapter 14
+ Corporate Regulatory Authority; Income Tax Act of Bhutan 2025
+ ss.296/299 TPN; Foreign Direct Investment Rules and Regulations 2025
+ Rule 4 + Schedule III Negative List, which itself repealed and
+ consolidated the FDI Policy 2019 and FDI Regulations 2019) rather
+ than the superseded 2023/2019-era instruments a stale search would
+ return, and correctly resolves the January 2023 Ministry of Economic
+ Affairs -> Ministry of Industry, Commerce and Employment (MoICE)
+ machinery-of-government split. Six governor checks (spec-basis ·
+ evidence-incomplete · FDI-sector-restricted against the Schedule III
+ Negative List, entity-scope-gated to an FDI Company per Rule
+ 138(12), the flagship SET-MEMBERSHIP check shape for this vertical ·
+ engagement-fee-mismatch · TPN-registration-unverified, grounded in
+ DRC/RAMIS · already-drafted/already-submitted double-actuation
+ guards), all HARD and unoverridable; `:filing/draft`/`:filing/submit`
+ are permanently absent from every phase's `:auto` set (never
+ auto-commit, at any phase, by construction -- two independent layers,
+ `marketentry.governor`'s high-stakes gate and `marketentry.phase`'s
+ phase table, agree). Store gained a `DatomicStore` via
+ `kotoba-lang/langchain-store` (no hand-rolled EDN-blob codec),
+ proven ≡ `MemStore` by a store-contract test. 30+ tests across
+ governor contract, phase invariants, store parity, registry
+ conformance and facts coverage, clj-kondo 0 errors."}
