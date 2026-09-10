@@ -85,7 +85,7 @@ Compliance Governor**.
 primary instruments above (PRR 2025, FDI Rules and Regulations 2025,
 Income Tax Act of Bhutan 2025) rather than the 2023/2019/2001-era
 instruments an earlier or less thorough search would return -- every
-citation in `src/marketentry/facts.cljc` was independently fetched
+citation in `src/marketentry/facts.kotoba` was independently fetched
 (`curl` + `pdftotext -layout`) and verbatim-checked against the actual
 government-hosted PDF, not assumed from a secondary summary. See that
 namespace's own docstring for the full per-citation provenance trail
@@ -137,7 +137,7 @@ phase, by construction.** Two independent layers enforce this:
 - `marketentry.phase`'s phase table (`phase 0` through `phase 3`)
   never puts `:filing/draft` or `:filing/submit` in any phase's
   `:auto` set -- see `marketentry.phase`'s own docstring and
-  `test/marketentry/phase_test.clj`'s `filing-submit-never-auto`.
+  `test/marketentry/phase_test.kotoba`'s `filing-submit-never-auto`.
 
 The actor may intake an engagement, assess a jurisdiction and draft a
 recommendation; a human market-entry operator is always the one who
@@ -198,14 +198,14 @@ clojure -M:lint        # clj-kondo (errors fail; CI mirrors this)
 
 | File | Role |
 |---|---|
-| `src/marketentry/store.cljc` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db` + `kotoba-lang/langchain-store`, no hand-rolled EDN-blob codec) + append-only audit ledger + draft AND submit history (dual history) |
-| `src/marketentry/registry.cljc` | Filing-draft/filing-submit record construction, `engagement-fee-matches-claim?` ground-truth recompute, `fdi-sector-restricted?` flagship SET-MEMBERSHIP check |
-| `src/marketentry/facts.cljc` | Per-jurisdiction market-entry regulatory catalog with an official spec-basis citation per entry, honest coverage reporting |
-| `src/marketentry/marketentryllm.cljc` | **MarketEntry-LLM** -- `mock-advisor`; intake/jurisdiction-assessment/draft/submit proposals |
-| `src/marketentry/governor.cljc` | **Market-Entry Compliance Governor** -- 5 HARD checks + 2 double-actuation guards + 1 soft (confidence/actuation gate), see Checks above |
-| `src/marketentry/phase.cljc` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (draft/submit always human) |
-| `src/marketentry/operation.cljc` | **OperationActor** -- langgraph StateGraph |
-| `src/marketentry/sim.cljc` | demo driver |
+| `src/marketentry/store.kotoba` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db` + `kotoba-lang/langchain-store`, no hand-rolled EDN-blob codec) + append-only audit ledger + draft AND submit history (dual history) |
+| `src/marketentry/registry.kotoba` | Filing-draft/filing-submit record construction, `engagement-fee-matches-claim?` ground-truth recompute, `fdi-sector-restricted?` flagship SET-MEMBERSHIP check |
+| `src/marketentry/facts.kotoba` | Per-jurisdiction market-entry regulatory catalog with an official spec-basis citation per entry, honest coverage reporting |
+| `src/marketentry/marketentryllm.kotoba` | **MarketEntry-LLM** -- `mock-advisor`; intake/jurisdiction-assessment/draft/submit proposals |
+| `src/marketentry/governor.kotoba` | **Market-Entry Compliance Governor** -- 5 HARD checks + 2 double-actuation guards + 1 soft (confidence/actuation gate), see Checks above |
+| `src/marketentry/phase.kotoba` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (draft/submit always human) |
+| `src/marketentry/operation.kotoba` | **OperationActor** -- langgraph StateGraph |
+| `src/marketentry/sim.kotoba` | demo driver |
 | `test/marketentry/*_test.clj` | governor contract · phase invariants · store parity · registry conformance · facts coverage |
 
 ## No robotics premise -- digital/data service exemption
@@ -251,7 +251,7 @@ This repo carries a **country-level regional-culture catalog**
 Wave 1, in `com-junkawasaki/root`) -- national dishes, protected products,
 beverages, crafts, festivals and heritage sites for Bhutan:
 
-- `src/culture/facts.cljc` -- the catalog, source of truth (keyed by
+- `src/culture/facts.kotoba` -- the catalog, source of truth (keyed by
   uppercase ISO3, mirroring `statute.facts`).
 - `schema/culture.edn` -- DataScript schema.
 - `data/culture-tx.edn` -- derived DataScript tx-data (regenerated from
