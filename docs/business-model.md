@@ -6,7 +6,7 @@ Market-entry compliance for the Kingdom of Bhutan.
   Department of Procurement and Properties) public procurement --
   e-GP (`egp.gov.bt`), a live self-service e-tendering portal, governed
   by the Procurement Rules and Regulations 2025 (see
-  `src/marketentry/facts.cljc`)
+  `src/marketentry/facts.kotoba`)
 - Corporate Regulatory Authority of Bhutan (CRA) company/business
   registration (Companies Act of Bhutan 2016, Chapter 14 Regulatory
   Authority)
